@@ -154,7 +154,7 @@ def evaluation_section(cfg: LLMConfig) -> None:
 
 
 def sandbox_section() -> None:
-    st.subheader("Coding Sandbox (Track B)")
+    st.subheader("Coding Sandbox ")
     st.caption("Paste a short Python snippet to run in a constrained sandbox. Avoid network or file access.")
     code = st.text_area("Code to execute", height=180)
     if st.button("Run code"):
