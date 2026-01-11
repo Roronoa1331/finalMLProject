@@ -63,8 +63,27 @@ def extract_projects(text: str, max_items: int = 5) -> List[str]:
     return projects
 
 
-def analyze_resume(file_bytes: bytes, filename: str) -> Tuple[str, str, List[str]]:
+def extract_candidate_name(text: str) -> str:
+    """Extract candidate name from resume (usually first line or before email)."""
+    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+    if not lines:
+        return "Candidate"
+    
+    # Try to find name (usually first non-empty line that's not a title)
+    for line in lines[:5]:
+        # Skip common headers and emails
+        if any(skip in line.lower() for skip in ["email", "phone", "linkedin", "@"]):
+            continue
+        # Return the first line that looks like a name (short, capitalized)
+        if len(line) < 50 and line[0].isupper():
+            return line.strip()
+    
+    return "Candidate"
+
+
+def analyze_resume(file_bytes: bytes, filename: str) -> Tuple[str, str, List[str], str]:
     text = extract_text(file_bytes, filename)
     stack_summary = summarize_stack(text)
     projects = extract_projects(text)
-    return text, stack_summary, projects
+    candidate_name = extract_candidate_name(text)
+    return text, stack_summary, projects, candidate_name

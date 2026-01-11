@@ -20,11 +20,13 @@ BEHAVIORAL_GUIDELINES = "Ask 1-2 behavioral questions (failure, conflict, owners
 CLOSING = "Close politely and mention that an evaluation will follow."
 
 
-def build_system_prompt(persona: str | None, stack_summary: str, resume_projects: List[str]) -> str:
+def build_system_prompt(persona: str | None, stack_summary: str, resume_projects: List[str], candidate_name: str = "Candidate") -> str:
     persona_text = persona.strip() if persona else DEFAULT_PERSONA
     project_hint = "\n".join(f"- {p}" for p in resume_projects[:3]) or "- No projects found"
     return (
         f"{persona_text}\n"
+        f"You are interviewing {candidate_name}.\n"
+        f"Introduce yourself as JobMatchAI, a technical interviewer.\n"
         "Follow a structured interview flow: introduction, technical deep dive, behavioral, conclusion.\n"
         f"Technical guidance: {TECH_GUIDELINES}\n"
         f"Behavioral guidance: {BEHAVIORAL_GUIDELINES}\n"

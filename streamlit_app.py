@@ -30,6 +30,8 @@ def init_state() -> None:
         st.session_state.projects = []
     if "resume_text" not in st.session_state:
         st.session_state.resume_text = ""
+    if "candidate_name" not in st.session_state:
+        st.session_state.candidate_name = "Candidate"
     if "evaluation" not in st.session_state:
         st.session_state.evaluation = None
 
@@ -97,10 +99,11 @@ def resume_section() -> None:
     uploaded = st.file_uploader("Upload PDF or TXT", type=["pdf", "txt"])
     if uploaded:
         file_bytes = uploaded.read()
-        text, stack_summary, projects = analyze_resume(file_bytes, uploaded.name)
+        text, stack_summary, projects, candidate_name = analyze_resume(file_bytes, uploaded.name)
         st.session_state.resume_text = text
         st.session_state.stack_summary = stack_summary
         st.session_state.projects = projects
+        st.session_state.candidate_name = candidate_name
         st.success("Resume processed.")
         st.write("**Tech stack summary:**", stack_summary)
         if projects:
@@ -122,6 +125,7 @@ def start_interview(cfg: LLMConfig, persona: str) -> None:
         persona=persona,
         stack_summary=st.session_state.stack_summary,
         resume_projects=st.session_state.projects,
+        candidate_name=st.session_state.candidate_name,
     )
     st.session_state.evaluation = None
     st.success("Interview initialized. Click 'Interviewer: next question' to begin.")
