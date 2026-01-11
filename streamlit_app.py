@@ -44,7 +44,7 @@ def sidebar_config() -> LLMConfig:
     elif backend == "deepseek":
         default_model = "deepseek-chat"
     elif backend == "gemini":
-        default_model = "gemini-1.5-flash-latest"
+        default_model = "gemini-2.5-flash"
     else:
         default_model = "llama3"
 

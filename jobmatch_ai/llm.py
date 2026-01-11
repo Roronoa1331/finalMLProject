@@ -13,8 +13,8 @@ _transformers_cache = {}
 
 
 class LLMConfig(BaseModel):
-    backend: str = "transformers"  # "transformers", "openai", "deepseek", "gemini", or "ollama"
-    model: str = "Qwen/Qwen2.5-3B-Instruct"
+    backend: str = "gemini"  # "transformers", "openai", "deepseek", "gemini", or "ollama"
+    model: str = "gemini-2.5-flash"
     base_url: str | None = None
     api_key: str | None = None
 
